@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -10,7 +10,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 type LoginErrors = {
   email?: string;
@@ -23,6 +23,12 @@ const taskSummary = [
     value: 18,
     accent: '#1D8348',
     note: 'Strong follow-through this week',
+  },
+  {
+    label: 'Paused',
+    value: 19,
+    accent: '#D68910',
+    note: 'Tasks Paused',
   },
   {
     label: 'Pending',
@@ -86,7 +92,8 @@ function App(): React.JSX.Element {
         <StatusBar barStyle="light-content" backgroundColor="#0B172A" />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          style={styles.flex}>
+          style={styles.flex}
+        >
           {isLoggedIn ? (
             <HomeScreen email={email.trim()} onLogout={handleLogout} />
           ) : (
@@ -125,7 +132,8 @@ function LoginScreen({
   return (
     <ScrollView
       contentContainerStyle={styles.loginScrollContent}
-      keyboardShouldPersistTaps="handled">
+      keyboardShouldPersistTaps="handled"
+    >
       <View style={styles.heroCard}>
         <Text style={styles.badge}>AI TASK MANAGER</Text>
         <Text style={styles.heroTitle}>Track work with clarity.</Text>
@@ -151,7 +159,9 @@ function LoginScreen({
             value={email}
             onChangeText={onEmailChange}
           />
-          {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
+          {errors.email ? (
+            <Text style={styles.errorText}>{errors.email}</Text>
+          ) : null}
         </View>
 
         <View style={styles.fieldBlock}>
@@ -182,7 +192,7 @@ type HomeScreenProps = {
   onLogout: () => void;
 };
 
-function HomeScreen({email, onLogout}: HomeScreenProps) {
+function HomeScreen({ email, onLogout }: HomeScreenProps) {
   const totalTasks = taskSummary.reduce((sum, item) => sum + item.value, 0);
 
   return (
@@ -209,9 +219,10 @@ function HomeScreen({email, onLogout}: HomeScreenProps) {
         {taskSummary.map(item => (
           <View
             key={item.label}
-            style={[styles.statCard, {borderTopColor: item.accent}]}>
+            style={[styles.statCard, { borderTopColor: item.accent }]}
+          >
             <Text style={styles.statLabel}>{item.label}</Text>
-            <Text style={[styles.statValue, {color: item.accent}]}>
+            <Text style={[styles.statValue, { color: item.accent }]}>
               {item.value}
             </Text>
             <Text style={styles.statNote}>{item.note}</Text>
